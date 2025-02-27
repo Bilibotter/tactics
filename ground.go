@@ -73,7 +73,7 @@ func (g *Ground) run() {
 	for g.CurrenTime < 60 || champ.currentHealth > 0 {
 		if g.CurrenTime > 15 {
 			// 15秒后伤害增加一部分
-			damage = 650
+			damage = 750
 		}
 		ticks += 1
 		swing += 1
@@ -100,6 +100,7 @@ func (g *Ground) run() {
 			totalDmg += damage
 			g.filter(NewE(timeGoA, g.CurrenTime))
 			g.filter(NewE(damagedA, g.CurrenTime))
+			showStatus(g)
 			showActiveAttach(g)
 			if outputLevel >= 3 {
 				if !lockingMana {
@@ -156,4 +157,18 @@ func showActiveAttach(ground *Ground) {
 		}
 		fmt.Printf("%d秒:当前生效buff%d, 当前生效被动%d\n", ground.CurrenTime, num0, num1)
 	}
+}
+
+func showStatus(ground *Ground) {
+	if outputLevel < 3 {
+		return
+	}
+	cp := ground.attrs_
+	for _, a := range ground.attach {
+		if !a.IsValid() {
+			continue
+		}
+		cp.Add(a.attr())
+	}
+	fmt.Printf("%d秒:生命值:%d, 减伤:%d%%, 双抗:%d\n", ground.CurrenTime, cp.health, 100-cp.dmgTaken, cp.armor)
 }

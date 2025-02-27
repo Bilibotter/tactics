@@ -73,9 +73,7 @@ func (p *passive) IsValid() bool {
 			return false
 		}
 		percent := p.ground.currentHealth * 100 / p.ground.maxHealth
-		if percent >= p.left && percent <= p.right {
-			return true
-		}
+		return percent >= p.left && percent <= p.right
 	}
 	if p.trigger == timeLineA {
 		if p.right == 0 {

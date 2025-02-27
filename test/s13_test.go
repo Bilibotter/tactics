@@ -6,6 +6,7 @@ import (
 )
 
 func Test13(t *testing.T) {
+	o.SortOutput()
 	o.Level(0)
 	// todo修复法力锁错误
 	reni := o.Champ(1530, 50, 40).
@@ -21,7 +22,7 @@ func Test13(t *testing.T) {
 	amumu := o.Champ(1500, 35+100, 50).
 		Watcher()
 	amumu.Add(o.BLK(25))
-	amumu.Simulate("3⭐ Amumu")
+	amumu.Simulate("3⭐ Amumu[6海]")
 
 	singed := o.Champ(2106, 40+25*3, 0).
 		Buff(50, 4, o.DR(50))
@@ -29,7 +30,11 @@ func Test13(t *testing.T) {
 
 	illaoi := o.Champ(1980, 60+42*3, 65).
 		Grow(125, 4*75).Buff(0, 3, o.DR(50)).Merge()
-	illaoi.Simulate("2⭐ Illaoi")
+	illaoi.Simulate("2⭐ Illaoi[6哨]")
+
+	illaoi0 := o.Champ(1980, 60+42*3, 65).
+		Grow(125, 4*75).Buff(0, 3, o.DR(50)).Merge()
+	illaoi0.Simulate("2⭐ Illaoi")
 
 	garen := o.Champ(1800, 60, 60).
 		Watcher().
@@ -49,11 +54,27 @@ func Test13(t *testing.T) {
 		MixHeal(150, 280, 0, 0)
 	scar0.Simulate("2⭐ Scar")
 
-	loris := o.Champ(2754, 50+25*3, 50).
-		MixShield(100, 900, 0, 4)
+	loris := o.Champ(2754, 50+25*3, 40).
+		MixShield(80, 900, 0, 4)
 	loris.Simulate("3⭐ Loris")
 
-	loris0 := o.Champ(1530, 50+25*3, 50).
-		MixShield(100, 700, 0, 4)
+	loris0 := o.Champ(1530, 50+25*3, 40).
+		MixShield(80, 700, 0, 4)
 	loris0.Simulate("2⭐ Loris")
+
+	vander := o.Champ(2592, 50, 0).
+		Buff(35, 3, o.AR(180)).
+		Watcher()
+	vander.Add(o.DR(20))
+	vander.Simulate("3⭐ Vander")
+	o.OutputBySort()
+}
+
+func TestSingle(t *testing.T) {
+	o.Level(3)
+	vander := o.Champ(2592, 50, 0).
+		Buff(35, 3, o.AR(180)).
+		Watcher()
+	vander.Add(o.DR(20))
+	vander.Simulate("3⭐ Vander")
 }
