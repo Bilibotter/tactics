@@ -16,6 +16,7 @@ const (
 type buff_ struct {
 	attrs_
 	Keep
+	name   string
 	remain int
 }
 

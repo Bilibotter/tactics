@@ -6,10 +6,10 @@ func Champ(health int, armor int, mana int, attrs ...*attrs_) *Ground {
 		Shred: true,
 		Wound: true,
 		attrs_: attrs_{
-			health:     (health + 600) * 128 / 100,
+			health:     health + 600,
 			armor:      armor + 60,
 			speed:      100,
-			healthAmp:  100,
+			healthAmp:  128, // 狂徒荆棘龙牙的最大生命值加成
 			manaAmp:    100,
 			recoverAmp: 100,
 			dmgTaken:   100,

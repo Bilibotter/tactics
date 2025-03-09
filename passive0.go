@@ -115,7 +115,7 @@ func (g *Ground) Porcelain() *Ground {
 		trigger: beforeCastA,
 	}
 	bf := buff(4, DR(20))
-	p.call = addBuff(bf)
+	p.call = addBuffFunc(bf)
 	return g.addPassive(p)
 }
 

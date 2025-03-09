@@ -8,7 +8,6 @@ import (
 func Test13(t *testing.T) {
 	o.SortOutput()
 	o.Level(0)
-	// todo修复法力锁错误
 	reni := o.Champ(1530, 50, 40).
 		MixHeal(100, 325, 15, 0).Swing(2)
 	reni.Add(o.HpAmp(80))
@@ -32,9 +31,11 @@ func Test13(t *testing.T) {
 		Grow(125, 4*75).Buff(0, 3, o.DR(50)).Merge()
 	illaoi.Simulate("2⭐ Illaoi[6哨]")
 
-	illaoi0 := o.Champ(1980, 60+42*3, 65).
+	illaoi0 := o.Champ(1980, 60+12*3, 65).
 		Grow(125, 4*75).Buff(0, 3, o.DR(50)).Merge()
-	illaoi0.Simulate("2⭐ Illaoi")
+	illaoi.Add(o.HpAmp(15))
+	illaoi.Add(o.AP(45))
+	illaoi0.Simulate("2⭐ Illaoi[7蓝]")
 
 	garen := o.Champ(1800, 60, 60).
 		Watcher().
@@ -72,9 +73,13 @@ func Test13(t *testing.T) {
 
 func TestSingle(t *testing.T) {
 	o.Level(3)
-	vander := o.Champ(2592, 50, 0).
-		Buff(35, 3, o.AR(180)).
-		Watcher()
-	vander.Add(o.DR(20))
-	vander.Simulate("3⭐ Vander")
+	//vander := o.Champ(2592, 50, 0).
+	//	Buff(35, 3, o.AR(180)).
+	//	Watcher()
+	//vander.Add(o.DR(20))
+	//vander.Simulate("3⭐ Vander")
+	reni := o.Champ(1530, 50, 40).
+		MixHeal(100, 325, 15, 0).Swing(2)
+	reni.Add(o.HpAmp(80))
+	reni.Simulate("2⭐ Reni")
 }
