@@ -30,7 +30,7 @@ func AP(i int) *attrs_ {
 	return &attrs_{ability: i}
 }
 
-func Heal(i int) *attrs_ {
+func HealAmp(i int) *attrs_ {
 	return &attrs_{recoverAmp: i}
 }
 

@@ -18,7 +18,7 @@ func Test9(t *testing.T) {
 	shen := o.Champ(1800, 60+25, 70).
 		Shield(140, 450, 4).
 		Invoker()
-	shen.Add(o.Heal(40))
+	shen.Add(o.HealAmp(40))
 	shen.Simulate("2⭐ Shen")
 
 	sejuani := o.Champ(1800, 60, 60).

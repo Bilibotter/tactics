@@ -130,6 +130,7 @@ func addHealth(health int, champion *champion_) {
 		fmt.Printf("增加生命值%d, 当前生命值%d, 最大生命值%d\n", health, champion.currentHealth, champion.healthy())
 	}
 	champion.currentHealth += health
+	// 治疗溢出
 	if champion.currentHealth > champion.healthy() {
 		champion.currentHealth = champion.healthy()
 	}

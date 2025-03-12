@@ -49,7 +49,7 @@ func (g *champion_) manaGain() int {
 	return amp
 }
 
-func (g *champion_) mitigate() int {
+func (g *champion_) mitigate() float64 {
 	armor, dmgTaken := g.armor, g.dmgTaken
 	for _, a := range g.attach {
 		if a.IsValid() {
@@ -62,7 +62,7 @@ func (g *champion_) mitigate() int {
 	if g.Shred {
 		armor = armor * 70 / 100
 	}
-	return dmgTaken * 100 / (100 + armor)
+	return float64(dmgTaken) / (100 + float64(armor))
 }
 
 func (g *champion_) blocks() int {
@@ -127,7 +127,8 @@ func (g *champion_) as() float64 {
 
 // 计算折后伤害
 func (g *champion_) postDmg(preDmg int) int {
-	dmg := preDmg*g.mitigate()/100 - g.blocks()
+	m := g.mitigate()
+	dmg := int(float64(preDmg)*m) - g.blocks()
 	if dmg <= 0 {
 		fmt.Println(preDmg, g.mitigate(), g.blocks())
 		panic("damage less than 0")
@@ -136,7 +137,7 @@ func (g *champion_) postDmg(preDmg int) int {
 }
 
 // 实际扣除生命值和护盾
-func (g *champion_) lose(dmg int) bool {
+func (g *Ground) lose(dmg int) bool {
 	old := dmg
 	for _, sh := range g.shields {
 		dmg = sh.Taken(dmg)
@@ -149,9 +150,9 @@ func (g *champion_) lose(dmg int) bool {
 	}
 	g.currentHealth -= dmg
 	if outputLevel >= 3 {
-		fmt.Printf("扣除生命值%d, 当前生命值%d, 最大生命值%d\n", dmg, g.currentHealth, g.maxHealth)
+		fmt.Printf("%d秒扣除生命值%d, 当前生命值%d, 最大生命值%d\n", g.CurrenTime, dmg, g.currentHealth, g.maxHealth)
 	}
-	return g.currentHealth >= 0
+	return g.currentHealth > 0
 }
 
 func (g *champion_) shieldHealth() int {
