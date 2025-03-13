@@ -508,3 +508,54 @@ func TestTriggerOnce(t *testing.T) {
 		t.Errorf("count = %d, want 1", count)
 	}
 }
+
+func TestStackPassive(t *testing.T) {
+	Level(0)
+	c := Hp4000_Ar100()
+	p := c.stackOrigin(AR(1))
+	p.trigger = attackA
+	p.maxStack = 5
+	c.Simulate("TestStackPassive")
+	res := c.result
+	if res.aliveTime != 9 {
+		t.Errorf("aliveTime = %d, want 8", res.aliveTime)
+	}
+	if res.postDmg != 4000 {
+		t.Errorf("postDmg = %d, want 4000", res.postDmg)
+	}
+	ar := c.armor
+	for _, attach := range c.attach {
+		if attach.IsValid() {
+			ar += attach.attr().armor
+		}
+	}
+	if ar != 105 {
+		t.Errorf("armor = %d, want 105", ar)
+	}
+}
+
+func TestStackPassive0(t *testing.T) {
+	Level(0)
+	c := Hp4000_Ar100()
+	p := c.stackOrigin(AR(1))
+	p.trigger = attackA
+	p.maxStack = 99
+	p.freq = 2
+	c.Simulate("TestStackPassive")
+	res := c.result
+	if res.aliveTime != 9 {
+		t.Errorf("aliveTime = %d, want 8", res.aliveTime)
+	}
+	if res.postDmg != 4000 {
+		t.Errorf("postDmg = %d, want 4000", res.postDmg)
+	}
+	ar := c.armor
+	for _, attach := range c.attach {
+		if attach.IsValid() {
+			ar += attach.attr().armor
+		}
+	}
+	if ar != 104 {
+		t.Errorf("armor = %d, want 104", ar)
+	}
+}

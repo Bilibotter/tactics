@@ -2,17 +2,33 @@ package tactics
 
 import "fmt"
 
-func (g *Ground) buffOrigin(trigger Action, duration int, attrs ...*attrs_) *Ground {
-	return g.buffOrigin0(0, trigger, duration, attrs...)
+func (g *Ground) attrOrigin(attrs ...*attrs_) *passive {
+	p := &passive{}
+	for _, attr := range attrs {
+		p.Add(attr)
+	}
+	g.addPassive(p)
+	return p
 }
 
-func (g *Ground) buffOrigin0(freq int, trigger Action, duration int, attrs ...*attrs_) *Ground {
+func (g *Ground) stackOrigin(attrs ...*attrs_) *passive {
+	p := &passive{
+		stack: &attrs_{},
+	}
+	for _, attr := range attrs {
+		p.stack.Add(attr)
+	}
+	g.addPassive(p)
+	return p
+}
+
+func (g *Ground) buffOrigin(trigger Action, duration int, attrs ...*attrs_) *passive {
 	p := &passive{
 		trigger: trigger,
 	}
-	p.freq = freq
 	p.call = addBuff(buff(duration, attrs...))
-	return g.addPassive(p)
+	g.addPassive(p)
+	return p
 }
 
 // 野火帮

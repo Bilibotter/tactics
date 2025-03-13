@@ -3,7 +3,7 @@ package tactics
 import "testing"
 
 func TestNormal(t *testing.T) {
-	outputLevel = 0
+	Level(0)
 	c := Hp4000_Ar100()
 	c.Simulate("TestNormal")
 	res := c.result

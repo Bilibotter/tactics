@@ -20,9 +20,10 @@ type passive struct {
 func (g *Ground) addPassive(ps ...*passive) *Ground {
 	for _, p := range ps {
 		p.ground = g
-		if p.call != nil {
-			g.filter_ = append(g.filter_, p)
-		}
+		//if p.call != nil {
+		//	g.filter_ = append(g.filter_, p)
+		//}
+		g.filter_ = append(g.filter_, p)
 		g.attach = append(g.attach, p)
 	}
 	return g
@@ -32,11 +33,17 @@ func (p *passive) handle(event Event, g *Ground) {
 	if !event.Is(p.trigger) {
 		return
 	}
-	if p.maxStack > 0 && p.stacks < p.maxStack && event.Is(p.trigger) {
-		if outputLevel >= 3 {
-			fmt.Printf("第%d次叠加被动\n", p.stacks+1)
+	if p.freq != 0 {
+		p.count++
+		if p.count%p.freq != 0 {
+			return
 		}
+	}
+	if p.maxStack > 0 && p.stacks < p.maxStack {
 		p.stacks++
+		if outputLevel >= 3 {
+			fmt.Printf("第%d次叠加被动\n", p.stacks)
+		}
 		p.Add(p.stack)
 	}
 	if p.call == nil {
@@ -44,12 +51,6 @@ func (p *passive) handle(event Event, g *Ground) {
 	}
 	if p.once == 2 {
 		return
-	}
-	if p.freq != 0 {
-		p.count++
-		if p.count%p.freq != 0 {
-			return
-		}
 	}
 	if p.once == 1 {
 		p.once = 2
