@@ -105,7 +105,7 @@ func shieldMax(percent int, remain int, lock ...bool) func(ground *Ground) {
 func addLockBuff(bf *buff_) func(_ *Ground) {
 	return func(ground *Ground) {
 		cp := *bf
-		addBuffFunc(&cp)(ground)
+		addBuff(&cp)(ground)
 		ground.locks = append(ground.locks, &manaLock{ground.buffs[cp.key()]})
 		if outputLevel >= 3 {
 			fmt.Printf("%d秒:增加buff %s\n", ground.CurrenTime, bf.key()[:6])
@@ -113,7 +113,7 @@ func addLockBuff(bf *buff_) func(_ *Ground) {
 	}
 }
 
-func addBuffFunc(bf *buff_) func(ground *Ground) {
+func addBuff(bf *buff_) func(ground *Ground) {
 	return func(ground *Ground) {
 		if buf, ok := ground.buffs[bf.key()]; ok {
 			buf.remain = bf.remain

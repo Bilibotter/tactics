@@ -17,6 +17,17 @@ type passive struct {
 	once     int             // once:0表示无限次,1表示只触发一次,2表示已触发
 }
 
+func (g *Ground) addPassive(ps ...*passive) *Ground {
+	for _, p := range ps {
+		p.ground = g
+		if p.call != nil {
+			g.filter_ = append(g.filter_, p)
+		}
+		g.attach = append(g.attach, p)
+	}
+	return g
+}
+
 func (p *passive) handle(event Event, g *Ground) {
 	if !event.Is(p.trigger) {
 		return

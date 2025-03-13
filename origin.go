@@ -2,15 +2,17 @@ package tactics
 
 import "fmt"
 
-func (g *Ground) addPassive(ps ...*passive) *Ground {
-	for _, p := range ps {
-		p.ground = g
-		if p.call != nil {
-			g.filter_ = append(g.filter_, p)
-		}
-		g.attach = append(g.attach, p)
+func (g *Ground) buffOrigin(trigger Action, duration int, attrs ...*attrs_) *Ground {
+	return g.buffOrigin0(0, trigger, duration, attrs...)
+}
+
+func (g *Ground) buffOrigin0(freq int, trigger Action, duration int, attrs ...*attrs_) *Ground {
+	p := &passive{
+		trigger: trigger,
 	}
-	return g
+	p.freq = freq
+	p.call = addBuff(buff(duration, attrs...))
+	return g.addPassive(p)
 }
 
 // 野火帮
@@ -114,8 +116,7 @@ func (g *Ground) Porcelain() *Ground {
 	p := &passive{
 		trigger: beforeCastA,
 	}
-	bf := buff(4, DR(20))
-	p.call = addBuffFunc(bf)
+	p.call = addBuff(buff(4, DR(20)))
 	return g.addPassive(p)
 }
 
