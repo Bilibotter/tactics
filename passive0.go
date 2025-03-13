@@ -47,7 +47,7 @@ func (g *Ground) Invoker() *Ground {
 func (g *Ground) Shurima() *Ground {
 	p0 := &passive{
 		trigger: timeGoA,
-		left:    8,
+		freq:    8,
 		call:    growMax(30),
 		once:    1,
 	}
@@ -63,15 +63,15 @@ func (g *Ground) Shurima() *Ground {
 func (g *Ground) Warden() *Ground {
 	p0 := &passive{
 		trigger: timeLineA,
-		left:    0,
-		right:   11,
+		start:   0,
+		end:     11,
 	}
 	p0.dmgTaken = 72
 
 	p1 := &passive{
 		trigger: timeLineA,
-		left:    11,
-		right:   100,
+		start:   11,
+		end:     100,
 	}
 	p1.dmgTaken = 90
 	return g.addPassive(p0, p1)
@@ -80,15 +80,15 @@ func (g *Ground) Warden() *Ground {
 func (g *Ground) Watcher() *Ground {
 	p0 := &passive{
 		trigger: healthPercentA,
-		left:    50,
-		right:   101,
+		start:   50,
+		end:     101,
 	}
 	p0.dmgTaken = 70
 
 	p1 := &passive{
 		trigger: healthPercentA,
-		left:    0,
-		right:   50,
+		start:   0,
+		end:     50,
 	}
 	p1.dmgTaken = 85
 	return g.addPassive(p0, p1)

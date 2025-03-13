@@ -24,9 +24,3 @@ func Champ(health int, armor int, mana int, attrs ...*attrs_) *Ground {
 	}
 	return &Ground{champion_: champ}
 }
-
-func (g *champion_) Passive(passives ...*passive) {
-	for _, p := range passives {
-		g.attach = append(g.attach, p)
-	}
-}

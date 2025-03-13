@@ -10,18 +10,16 @@ type passive struct {
 	stacks   int
 	maxStack int
 	freq     int             // 每多少秒触发一次
-	left     int             // 界定的数值/左边界值
-	right    int             // 右边界值
+	count    int             // 已接收事件数，和freq结合使用
+	start    int             // 界定的数值/左边界值
+	end      int             // 右边界值
 	call     func(g *Ground) // 匹配到事件时调用
 	once     int             // once:0表示无限次,1表示只触发一次,2表示已触发
 }
 
 func (p *passive) handle(event Event, g *Ground) {
-	if event.Is(timeGoA) && event.Is(p.trigger) && p.freq != 0 {
-		// 未到触发时间
-		if g.CurrenTime == 0 || g.CurrenTime%p.freq != 0 {
-			return
-		}
+	if !event.Is(p.trigger) {
+		return
 	}
 	if p.maxStack > 0 && p.stacks < p.maxStack && event.Is(p.trigger) {
 		if outputLevel >= 3 {
@@ -30,22 +28,25 @@ func (p *passive) handle(event Event, g *Ground) {
 		p.stacks++
 		p.Add(p.stack)
 	}
-	if p.call != nil && event.Is(p.trigger) {
-		if p.once == 2 {
+	if p.call == nil {
+		return
+	}
+	if p.once == 2 {
+		return
+	}
+	if p.freq != 0 {
+		p.count++
+		if p.count%p.freq != 0 {
 			return
 		}
-		if p.once == 1 {
-			if p.left > 1 {
-				p.left--
-				return
-			}
-			p.once = 2
-		}
-		if outputLevel >= 3 {
-			fmt.Printf("%d秒:触发被动\n", g.CurrenTime)
-		}
-		p.call(g)
 	}
+	if p.once == 1 {
+		p.once = 2
+	}
+	if outputLevel >= 3 {
+		fmt.Printf("%d秒:触发被动\n", g.CurrenTime)
+	}
+	p.call(g)
 }
 
 func (p *passive) IsValid() bool {
@@ -65,21 +66,21 @@ func (p *passive) IsValid() bool {
 		return false
 	}
 	if p.trigger == healthPercentA {
-		if p.right == 0 {
-			p.right = 101
+		if p.end == 0 {
+			p.end = 101
 		}
 		// 未初始化
 		if p.ground.maxHealth == 0 {
 			return false
 		}
 		percent := p.ground.currentHealth * 100 / p.ground.maxHealth
-		return percent >= p.left && percent <= p.right
+		return percent >= p.start && percent <= p.end
 	}
 	if p.trigger == timeLineA {
-		if p.right == 0 {
-			p.right = 30
+		if p.end == 0 {
+			p.end = 30
 		}
-		return p.ground.CurrenTime >= p.left && p.ground.CurrenTime < p.right
+		return p.ground.CurrenTime >= p.start && p.ground.CurrenTime < p.end
 	}
 	return true
 }

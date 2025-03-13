@@ -14,17 +14,53 @@ func Hp4000_Ar100() *Ground {
 	return c
 }
 
-func TestDRBuff(t *testing.T) {
+func TestBuffDuration(t *testing.T) {
+	Level(0)
+	c := Hp4000_Ar100()
+	c.Add(HP(4000))
+	c.Buff(70, 2)
+	c.Simulate("TestDRBuff1")
+	res := c.result
+	if res.aliveTime != 16 {
+		t.Errorf("aliveTime = %d, want 8", res.aliveTime)
+	}
+	if res.postDmg != 8000 {
+		t.Errorf("postDmg = %d, want 4000", res.postDmg)
+	}
+	if c.CastTimes != 4 {
+		t.Errorf("CastTimes = %d, want 4", c.CastTimes)
+	}
+}
+
+func TestDRBuff0(t *testing.T) {
 	Level(0)
 	c := Hp4000_Ar100()
 	c.Buff(70, 300, DR(50))
-	c.Simulate("TestDRBuff")
+	c.Simulate("TestDRBuff0")
 	res := c.result
 	if res.aliveTime != 8+6 {
 		t.Errorf("aliveTime = %d, want 8", res.aliveTime)
 	}
 	if res.postDmg != 4000 {
 		t.Errorf("postDmg = %d, want 4000", res.postDmg)
+	}
+}
+
+func TestDRBuff1(t *testing.T) {
+	Level(3)
+	c := Hp4000_Ar100()
+	c.Add(HP(4000))
+	c.Buff(70, 2, DR(50))
+	c.Simulate("TestDRBuff1")
+	res := c.result
+	if res.aliveTime != 21 {
+		t.Errorf("aliveTime = %d, want 21", res.aliveTime)
+	}
+	if res.postDmg != 8000 {
+		t.Errorf("postDmg = %d, want 4000", res.postDmg)
+	}
+	if c.CastTimes != 5 {
+		t.Errorf("CastTimes = %d, want 5", c.CastTimes)
 	}
 }
 

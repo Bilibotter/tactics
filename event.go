@@ -3,8 +3,8 @@ package tactics
 type Action int
 
 const (
-	attackA Action = iota
-	damagedA
+	attackA  Action = iota
+	damagedA        // s10的阿木木挨打叠加
 	beforeCastA
 	afterCastA
 	timeGoA

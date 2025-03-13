@@ -106,7 +106,7 @@ func addLockBuff(bf *buff_) func(_ *Ground) {
 	return func(ground *Ground) {
 		cp := *bf
 		addBuffFunc(&cp)(ground)
-		ground.locks = append(ground.locks, &manaLock{&cp})
+		ground.locks = append(ground.locks, &manaLock{ground.buffs[cp.key()]})
 		if outputLevel >= 3 {
 			fmt.Printf("%d秒:增加buff %s\n", ground.CurrenTime, bf.key()[:6])
 		}

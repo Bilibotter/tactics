@@ -100,6 +100,8 @@ func (g *Ground) run() {
 			}
 		}
 		if ticks%100 == 0 {
+			// 先叠加承受伤害叠加的被动再计算折后伤害
+			g.filter(NewE(damagedA, g.CurrenTime))
 			actual := champ.postDmg(damage)
 			if !champ.lose(actual) {
 				total := actual
@@ -122,10 +124,10 @@ func (g *Ground) run() {
 			mana += (damage*pre + actual*post) / 100 * g.manaGain() / 100
 			g.DmgRecord = append(g.DmgRecord, actual)
 			totalDmg += damage
-			g.filter(NewE(timeGoA, g.CurrenTime))
-			g.filter(NewE(damagedA, g.CurrenTime))
 			showStatus(g)
 			showActiveAttach(g)
+			// 计算buff持续时间时包含右边界
+			g.filter(NewE(timeGoA, g.CurrenTime))
 			if outputLevel >= 3 {
 				if !lockingMana {
 					fmt.Printf("%d秒:折后承伤%d, 回蓝%d点\n", g.CurrenTime, actual, mana)
@@ -137,10 +139,11 @@ func (g *Ground) run() {
 		if !lockingMana {
 			champ.currentMana += mana
 		}
-		// 为了让技能吃到施法增益，先触发被动再施法。
+		// 为避免边界值使得buff收益期超出预期先承伤再施法。比如避免持续2s的buff作用于3次承伤。
+		// 为了让技能吃到施法增益，先触发时间性被动再施法。
 		if !lockingMana && champ.skill != nil && champ.currentMana >= champ.skill.costMana() {
 			if outputLevel >= 2 {
-				fmt.Printf("%d秒:第%d次施法\n", g.CurrenTime, g.CastTimes+1)
+				fmt.Printf("%d秒:第%d次读条施法\n", g.CurrenTime, g.CastTimes+1)
 			}
 			champ.currentMana -= champ.skill.costMana()
 			g.skill.cast()
