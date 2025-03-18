@@ -18,6 +18,10 @@ type attrs_ struct {
 	missingRegen int // 基于损失的最大生命值恢复
 }
 
+func ArAmp(i int) *attrs_ {
+	return &attrs_{armorAmp: i}
+}
+
 func HP(i int) *attrs_ {
 	return &attrs_{health: i}
 }

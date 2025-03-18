@@ -50,7 +50,7 @@ func (g *champion_) manaGain() int {
 }
 
 func (g *champion_) mitigate() float64 {
-	armor, dmgTaken := g.armor, g.dmgTaken
+	armor, dmgTaken, armorAmp := g.armor, g.dmgTaken, g.armorAmp
 	for _, a := range g.attach {
 		if a.IsValid() {
 			armor += a.attr().armor
@@ -59,6 +59,7 @@ func (g *champion_) mitigate() float64 {
 			}
 		}
 	}
+	armor = armor * armorAmp / 100
 	if g.Shred {
 		armor = armor * 70 / 100
 	}

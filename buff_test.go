@@ -7,6 +7,7 @@ func Hp4000_Ar100() *Ground {
 	c.basicSpeed = 1.0
 	c.health = 4000
 	c.healthAmp = 100
+	c.armorAmp = 100
 	c.armor = 100
 	c.Wound = false
 	c.Shred = false

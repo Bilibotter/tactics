@@ -10,6 +10,7 @@ var testDmg = 0
 var outputLevel = 0 // 3：详细；2：标准；1：重大
 var sortOutput = false
 var outputs []output
+var dmgBefore15, dmgAfter15 = 0, 0 // 15秒前后每秒承受的伤害
 
 type filter_ []Handler
 
@@ -26,6 +27,10 @@ type Ground struct {
 	CurrenTime int   // 当前时间
 	CastTimes  int   // 施法次数
 	result     output
+}
+
+func SetDmg(dmg1, dmg2 int) {
+	dmgBefore15, dmgAfter15 = dmg1, dmg2
 }
 
 func Level(level int) {
@@ -129,7 +134,7 @@ func (g *Ground) run() {
 			// 计算buff持续时间时包含右边界
 			g.filter(NewE(timeGoA, g.CurrenTime))
 			if outputLevel >= 3 {
-				if !lockingMana {
+				if !g.lockingMana() {
 					fmt.Printf("%d秒:折后承伤%d, 回蓝%d点\n", g.CurrenTime, actual, mana)
 				} else {
 					fmt.Printf("%d秒:折后承伤%d, 法力锁定中\n", g.CurrenTime, actual)
@@ -184,5 +189,5 @@ func showStatus(ground *Ground) {
 		}
 		cp.Add(a.attr())
 	}
-	fmt.Printf("%d秒:生命值:%d, 减伤:%d%%, 双抗:%d\n", ground.CurrenTime, cp.health, 100-cp.dmgTaken, cp.armor)
+	fmt.Printf("%d秒:生命值:%d, 减伤:%d%%, 双抗:%d, 最大生命值加成:%d\n", ground.CurrenTime, cp.health, 100-cp.dmgTaken, cp.armor, cp.healthAmp-100)
 }
