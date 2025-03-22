@@ -191,13 +191,13 @@ func (g *Ground) Strategist(actives ...int) *Ground {
 	increase := 0
 	switch active {
 	case 2:
-		increase = 5
+		increase = 4
 	case 3:
-		increase = 7
+		increase = 6
 	case 4:
-		increase = 11
+		increase = 9
 	case 5:
-		increase = 14
+		increase = 12
 	default:
 		panic("wrong origin num")
 	}

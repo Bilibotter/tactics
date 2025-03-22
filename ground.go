@@ -75,6 +75,9 @@ func (g *Ground) run() {
 	swing := 0
 	pre, post := 1, 3 // 折前/折后承伤百分比回蓝
 	damage := 500
+	if dmgBefore15 > 0 {
+		damage = dmgBefore15
+	}
 	champ := g
 	champ.maxHealth = champ.healthy()
 	totalDmg := 0
@@ -82,6 +85,9 @@ func (g *Ground) run() {
 		if g.CurrenTime > 15 {
 			// 15秒后伤害增加一部分
 			damage = 750
+			if dmgAfter15 > 0 {
+				damage = dmgAfter15
+			}
 		}
 		if testDmg > 0 {
 			damage = testDmg
