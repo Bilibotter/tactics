@@ -76,6 +76,7 @@ func (g *Ground) Bastion(actives ...int) *Ground {
 	return g
 }
 
+// 重装的盾回蓝
 func (g *Ground) Vanguard(actives ...int) *Ground {
 	active := 2
 	if len(actives) != 0 {
@@ -130,7 +131,7 @@ func (g *Ground) Vanguard(actives ...int) *Ground {
 	return g
 }
 
-// 重装的盾不回蓝
+// 重装的盾回蓝
 func (g *Ground) Vanguard0(actives ...int) *Ground {
 	active := 2
 	if len(actives) != 0 {

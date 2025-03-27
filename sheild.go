@@ -14,7 +14,7 @@ func (g *Ground) addShield(shield ...*shield_) *Ground {
 		for _, s := range shield {
 			total += s.health
 		}
-		fmt.Printf("新增护盾值%d\n", total)
+		fmt.Printf("新增护盾后总护盾值%d\n", total)
 	}
 	return g
 }

@@ -35,13 +35,13 @@ func Test14V0(t *testing.T) {
 	leona := o.Champ(1980, 60, 50)
 	leona.Buff(110, 4, o.DR(60))
 	leona.Animal(7)
-	leona.Vanguard0(2)
+	leona.Vanguard(2)
 	leona.Simulate("Leona[7]")
 
 	// 晕3次
 	leona = o.Champ(1980, 60, 50)
 	leona.Buff(110, 4, o.DR(60))
-	leona.Vanguard0(4)
+	leona.Vanguard(4)
 	leona.Simulate("Leona[4]")
 
 	chogath := o.Champ(1800, 50, 60)
@@ -68,12 +68,12 @@ func Test14V0(t *testing.T) {
 
 	jarvan := o.Champ(1530, 50, 30)
 	jarvan.Shield(90, 300+50*2, 4) // 0.4swing
-	jarvan.Vanguard0(4)
+	jarvan.Vanguard(4)
 	jarvan.Simulate("Jarvan[2*]")
 
 	jarvan = o.Champ(2754, 50, 30)
 	jarvan.Shield(90, 350+80*2, 4)
-	jarvan.Vanguard0(4)
+	jarvan.Vanguard(4)
 	jarvan.Simulate("Jarvan[3*]")
 
 	gragas := o.Champ(1530, 50, 30)
@@ -98,22 +98,22 @@ func Test14V0(t *testing.T) {
 
 	braum := o.Champ(1520, 50, 30)
 	braum.MixShield(100, 475, 10, 4) // 0.5swing
-	braum.Vanguard0(4)
+	braum.Vanguard(4)
 	braum.Simulate("Braum[2*]")
 
 	braum = o.Champ(2754, 50, 30)
 	braum.MixShield(100, 500, 10, 4)
-	braum.Vanguard0(4)
+	braum.Vanguard(4)
 	braum.Simulate("Braum[3*]")
 
 	skarnar := o.Champ(2592, 50, 25)
 	skarnar.Shield(75, 450, 3) // swing0.2
-	skarnar.Vanguard0(4)
+	skarnar.Vanguard(4)
 	skarnar.Simulate("Skanar[3*]")
 
 	rhaast := o.Champ(2268, 40, 40)
 	rhaast.MixHeal(80, 170, 10, 0).Swing(1)
-	rhaast.Vanguard0(4)
+	rhaast.Vanguard(4)
 	rhaast.Simulate("Rhaast[3*]")
 
 	illaoi := o.Champ(2592, 45, 0)
@@ -136,7 +136,7 @@ func Test14V0(t *testing.T) {
 	vi := o.Champ(2108, 40, 30)
 	// 急速衰减
 	vi.MixShield(70, 425*7/10, 15*7/10, 4)
-	vi.Vanguard0(4)
+	vi.Vanguard(4)
 	vi.Simulate("Vi[3*]")
 
 	jax := o.Champ(2108, 40, 20)
@@ -259,7 +259,7 @@ func Test14(t *testing.T) {
 
 	rhaast := o.Champ(2268, 40, 40)
 	rhaast.MixHeal(80, 170, 10, 0).Swing(1)
-	rhaast.Vanguard0(4)
+	rhaast.Vanguard(4)
 	rhaast.Simulate("Rhaast[3*]")
 
 	illaoi := o.Champ(2592, 45, 0)
@@ -328,13 +328,14 @@ func Test14Wild(t *testing.T) {
 	leona := o.Champ(1980, 60, 50)
 	leona.Buff(110, 4, o.DR(60))
 	leona.Animal(7)
-	leona.Vanguard0(2)
+	leona.Vanguard(2)
 	leona.Simulate("Leona[7]")
 
 	// 晕3次
 	leona = o.Champ(1980, 60, 50)
 	leona.Buff(110, 4, o.DR(60))
-	leona.Vanguard0(4)
+	leona.Add(o.AR(16)) // 幻灵+辛迪加的护甲
+	leona.Vanguard(4)
 	leona.Simulate("Leona[4]")
 
 	chogath := o.Champ(1800, 50, 60)
@@ -361,12 +362,12 @@ func Test14Wild(t *testing.T) {
 
 	jarvan := o.Champ(1530, 50, 30)
 	jarvan.Shield(90, 300+50*2, 4) // 0.4swing
-	jarvan.Vanguard0(4)
+	jarvan.Vanguard(4)
 	jarvan.Simulate("Jarvan[2*]")
 
 	jarvan = o.Champ(2754, 50, 30)
 	jarvan.Shield(90, 350+80*2, 4)
-	jarvan.Vanguard0(4)
+	jarvan.Vanguard(4)
 	jarvan.Simulate("Jarvan[3*]")
 
 	gragas := o.Champ(1530, 50, 30)
@@ -391,22 +392,29 @@ func Test14Wild(t *testing.T) {
 
 	braum := o.Champ(1520, 50, 30)
 	braum.MixShield(100, 475, 10, 4) // 0.5swing
-	braum.Vanguard0(4)
+	braum.Vanguard(4)
 	braum.Simulate("Braum[2*]")
+
+	braum = o.Champ(1520, 50, 30)
+	braum.MixShield(100, 475, 10, 4) // 0.5swing
+	braum.Syndicate(5)
+	braum.Add(o.AR(100))
+	braum.Vanguard(2)
+	braum.Simulate("Braum[5Syn]")
 
 	braum = o.Champ(2754, 50, 30)
 	braum.MixShield(100, 500, 10, 4)
-	braum.Vanguard0(4)
+	braum.Vanguard(4)
 	braum.Simulate("Braum[3*]")
 
 	skarnar := o.Champ(2592, 50, 25)
 	skarnar.Shield(75, 450, 3) // swing0.2
-	skarnar.Vanguard0(4)
+	skarnar.Vanguard(4)
 	skarnar.Simulate("Skanar[3*]")
 
 	rhaast := o.Champ(2268, 40, 50)
 	rhaast.MixHeal(80, 170, 10, 0).Swing(1)
-	rhaast.Vanguard0(4)
+	rhaast.Vanguard(4)
 	rhaast.Simulate("Rhaast[3*]")
 
 	illaoi := o.Champ(2592, 45, 0)
@@ -429,7 +437,7 @@ func Test14Wild(t *testing.T) {
 	vi := o.Champ(2108, 40, 30)
 	// 急速衰减
 	vi.MixShield(70, 425*7/10, 15*7/10, 4)
-	vi.Vanguard0(4)
+	vi.Vanguard(4)
 	vi.Simulate("Vi[3*]")
 
 	jax := o.Champ(2108, 40, 20)
@@ -454,6 +462,6 @@ func Test14Single(t *testing.T) {
 	o.Level(3)
 	skarnar := o.Champ(2592, 50, 25)
 	skarnar.Shield(75, 450, 3) // swing0.2
-	skarnar.Vanguard0(4)
+	skarnar.Vanguard(4)
 	skarnar.Simulate("Skanar[3*]")
 }
